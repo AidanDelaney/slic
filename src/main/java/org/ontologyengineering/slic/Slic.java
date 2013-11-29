@@ -55,6 +55,7 @@ public class Slic {
 
         ResultSetFormatter.out(System.out, results);
     }
+
     private static String readStringFromFile(String fname) {
         File file = new File(fname);
         try {
