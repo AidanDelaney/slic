@@ -59,12 +59,15 @@ public class SlicTest {
 
     @Test
     public void runAll() {
+        String dirName = System.getProperty("slic.test.resources");
         for(String base: fnames) {
             try {
-                File dataFile = new File(base + ".owl");
-                String queryString = Slic.readStringFromFile(base + ".sparql");
+                String fname = dirName + File.separator + base;
+                File dataFile = new File(fname + ".owl");
+                String queryString = Slic.readStringFromFile(fname + ".sparql");
                 ResultSet rs = Slic.doRunQuery(dataFile, queryString);
                 Assert.assertEquals(1, size(rs));
+                System.out.println("+");
             } catch (Exception e) {
                 System.out.println("No implementation for " + base);
             }
