@@ -4,14 +4,14 @@ Apache jena.arq wasn't playing ball, so I hacked this up.  It's also useful to b
 
 ## Building
 
-'''bash
+```bash
 $ mvn compile
-'''
+```
 
 ## Testing
 
 The location of the resource files ((.owl, .sparql) pairs) needs to be defined as a property.
 
-'''bash
+```bash
 $ mvn test -D"slic.test.resources=`pwd`/src/test/resources/"
-'''
+```
