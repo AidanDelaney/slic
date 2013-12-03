@@ -11,7 +11,6 @@ public class SlicTest {
 
     private String [] fnames = {
             "conjuctionTest",
-            "equivalence",
             "simple_atomsubsetatom",
             "simple_atomsubsetconj",
             "simple_atomsubsetdisj",
