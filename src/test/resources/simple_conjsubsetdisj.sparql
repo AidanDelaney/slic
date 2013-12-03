@@ -18,10 +18,10 @@ WHERE {
                  .
         ?atomb     rdf:type                                 owl:Class 
                  .
-        ?classrhs   owl:intersectionOf                      ?conjb
+        ?classrhs   owl:unionOf                             ?disjb
                  ;  rdf:type                                owl:Class
                  .
-        ?conjb      rdf:first                               ?atomc
+        ?disjb      rdf:first                               ?atomc
                  ;  rdf:rest/rdf:first                      ?atomd
                     # Ensure this is a binary intersectionOf
                  ;  rdf:rest/rdf:rest                       rdf:nil
@@ -40,8 +40,8 @@ WHERE {
         FILTER NOT EXISTS{?atomc owl:unionOf        ?o4 } 
         FILTER NOT EXISTS{?atomc owl:intersectionOf ?o5 } 
         FILTER NOT EXISTS{?atomc owl:complementOf   ?o6 } 
-        FILTER NOT EXISTS{?atomd owl:unionOf        ?o7 } 
-        FILTER NOT EXISTS{?atomd owl:intersectionOf ?o8 } 
-        FILTER NOT EXISTS{?atomd owl:complementOf   ?o9 } 
+        FILTER NOT EXISTS{?atomc owl:unionOf        ?o7 } 
+        FILTER NOT EXISTS{?atomc owl:intersectionOf ?o8 } 
+        FILTER NOT EXISTS{?atomc owl:complementOf   ?o9 } 
        } 
 GROUP BY ?atoma ?atomb ?atomc ?atomd

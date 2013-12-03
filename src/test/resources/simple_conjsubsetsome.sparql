@@ -2,9 +2,8 @@ PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX owl: <http://www.w3.org/2002/07/owl#> 
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> 
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
-SELECT ?atoma ?atomb ?atomc ?atomd
+SELECT ?atoma ?atomb ?atomc
 WHERE {
-        # FIXME: would like to write ?object owl:intersectionOf/owl:Class/rdf:first ?atomb here, but it doesn't work.
         ?classlhs   owl:intersectionOf                      ?conja
                  ;  rdf:type                                owl:Class
                  ;  rdfs:subClassOf                         ?classrhs
@@ -18,17 +17,9 @@ WHERE {
                  .
         ?atomb     rdf:type                                 owl:Class 
                  .
-        ?classrhs   owl:intersectionOf                      ?conjb
-                 ;  rdf:type                                owl:Class
-                 .
-        ?conjb      rdf:first                               ?atomc
-                 ;  rdf:rest/rdf:first                      ?atomd
-                    # Ensure this is a binary intersectionOf
-                 ;  rdf:rest/rdf:rest                       rdf:nil
+        ?classrhs   owl:someValuesFrom                      ?atomc
                  .
         ?atomc     rdf:type                                 owl:Class 
-                 .
-        ?atomd     rdf:type                                 owl:Class 
                  .
         # Ensure each atom is atomic
         FILTER NOT EXISTS{?atoma owl:unionOf        ?ox }
@@ -40,8 +31,5 @@ WHERE {
         FILTER NOT EXISTS{?atomc owl:unionOf        ?o4 } 
         FILTER NOT EXISTS{?atomc owl:intersectionOf ?o5 } 
         FILTER NOT EXISTS{?atomc owl:complementOf   ?o6 } 
-        FILTER NOT EXISTS{?atomd owl:unionOf        ?o7 } 
-        FILTER NOT EXISTS{?atomd owl:intersectionOf ?o8 } 
-        FILTER NOT EXISTS{?atomd owl:complementOf   ?o9 } 
        } 
-GROUP BY ?atoma ?atomb ?atomc ?atomd
+GROUP BY ?atoma ?atomb ?atomc
