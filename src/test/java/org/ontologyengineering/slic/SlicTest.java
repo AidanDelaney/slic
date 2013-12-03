@@ -1,15 +1,26 @@
 package org.ontologyengineering.slic;
 
-import org.junit.*;
-
 import java.io.File;
+import java.util.Vector;
+import java.util.Collection;
 
 import com.hp.hpl.jena.ontology.*;
 import com.hp.hpl.jena.query.*;
 
+import org.junit.*;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ErrorCollector;
+import org.junit.runner.Description;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
+
+@RunWith(value = Parameterized.class)
 public class SlicTest {
 
-    private String [] fnames = {
+    private String    file;
+    static private String [] fnames = {
             "conjuctionTest",
             "simple_atomsubsetatom",
             "simple_atomsubsetconj",
@@ -56,21 +67,36 @@ public class SlicTest {
             "simple_topsubsetsome",
             "simple_topsubsettop"};
 
+    @Rule
+    public ErrorCollector collector = new ErrorCollector();
+
+    public SlicTest (String fname) {
+        this.file = fname;
+    }
+
+    @Parameters
+    public static Collection<String[]> data() {
+	Vector<String[]> v = new Vector<String[]>();
+	for(String f: fnames) {
+	    v.add(new String[]{f});
+	}
+	return v;
+    }
+
+
     @Test
     public void runAll() {
         String dirName = System.getProperty("slic.test.resources");
-        for(String base: fnames) {
-            try {
-                String fname = dirName + File.separator + base;
-                File dataFile = new File(fname + ".owl");
-                String queryString = Slic.readStringFromFile(fname + ".sparql");
-                ResultSet rs = Slic.doRunQuery(dataFile, queryString);
-                Assert.assertEquals(1, size(rs));
-                System.out.println("+");
-            } catch (Exception e) {
-                System.out.println("No implementation for " + base);
-            }
-        }
+	try {
+	    String fname = dirName + File.separator + file;
+	    File dataFile = new File(fname + ".owl");
+	    String queryString = Slic.readStringFromFile(fname + ".sparql");
+	    ResultSet rs = Slic.doRunQuery(dataFile, queryString);
+	    Assert.assertEquals("Failure with " + file, 1, size(rs));
+	    System.out.println("+");
+	} catch (Exception e) {
+	    Assert.assertTrue("Exception with " + file, false);
+	}	
     }
 
     private static int size(ResultSet rs) {
