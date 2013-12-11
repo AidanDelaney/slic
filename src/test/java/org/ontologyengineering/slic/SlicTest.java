@@ -21,7 +21,7 @@ public class SlicTest {
 
     private String    file;
     static private String [] fnames = {
-            "conjuctionTest",
+//            "conjuctionTest",
             "simple_atomsubsetatom",
             "simple_atomsubsetconj",
             "simple_atomsubsetdisj",
@@ -93,7 +93,6 @@ public class SlicTest {
 	    String queryString = Slic.readStringFromFile(fname + ".sparql");
 	    ResultSet rs = Slic.doRunQuery(dataFile, queryString);
 	    Assert.assertEquals("Failure with " + file, 1, size(rs));
-	    System.out.println("+");
 	} catch (Exception e) {
 	    Assert.assertTrue("Exception with " + file, false);
 	}	
