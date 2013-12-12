@@ -39,7 +39,7 @@ public class Slic {
         // Get the query & data
         String queryString = null;
         try {
-            readStringFromFile(cmd.getOptionValue("query"));
+            queryString = readStringFromFile(cmd.getOptionValue("query"));
         } catch(IOException e) {
             e.printStackTrace();
             System.exit(0);
@@ -50,10 +50,12 @@ public class Slic {
         ResultSet rs = doRunQuery(dataFile, queryString);
         // Print the ResultSet
         ResultSetFormatter.out(System.out, rs);
+        System.out.println("Count: " + size(doRunQuery(dataFile, queryString)));
     }
 
     /* package */ static ResultSet doRunQuery(File ontologyFile, String queryString) {
         OntModel ontology = ModelFactory.createOntologyModel(OntModelSpec.OWL_DL_MEM);
+        ontology.getDocumentManager().setProcessImports(false);
         ontology.read(ontologyFile.toURI().toString());
 
         Query qs1         = QueryFactory.create(queryString);
@@ -68,5 +70,14 @@ public class Slic {
         } catch (IOException e) {
             throw e;
         }
+    }
+
+    private static int size(ResultSet rs) {
+        int r = 0;
+        while(rs.hasNext()) {
+            rs.next();
+            r++;
+        }
+        return r;
     }
 }
