@@ -2,7 +2,7 @@ PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX owl: <http://www.w3.org/2002/07/owl#> 
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> 
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
-SELECT ?subject ?object 
+SELECT DISTINCT ?subject ?object 
 WHERE { ?subject rdfs:subClassOf       ?object ; 
                  rdf:type              owl:Class . 
         ?object  rdf:type              owl:Class . 
@@ -13,4 +13,4 @@ WHERE { ?subject rdfs:subClassOf       ?object ;
         FILTER NOT EXISTS{?object  owl:intersectionOf ?o5 } 
         FILTER NOT EXISTS{?object  owl:complementOf   ?o6 } 
        } 
-GROUP BY ?subject ?object 
+#GROUP BY ?subject ?object 
